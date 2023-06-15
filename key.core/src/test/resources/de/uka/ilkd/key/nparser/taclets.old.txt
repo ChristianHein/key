@@ -1,5 +1,5 @@
 # This files contains representation of taclets, which are accepted and revised.
-# Date: Mon Mar 20 13:56:02 CET 2023
+# Date: Thu Jun 15 15:17:19 CEST 2023
 
 == abortJavaCardTransactionAPI (abortJavaCardTransactionAPI) =========================================
 abortJavaCardTransactionAPI {
@@ -2422,14 +2422,14 @@ bitwiseNegationInt {
 \find(#normalassign ( (modal operator))\[{ ..
   #loc = ~#seCharByteShortInt;
 ... }\] (post))
-\replacewith(update-application(elem-update(#loc (program Variable))(javaBitwiseNegateInt(#se)),#normalassign(post))) 
+\replacewith(update-application(elem-update(#loc (program Variable))(javaBitwiseNegateInt(#seCharByteShortInt)),#normalassign(post)))
 \heuristics(executeIntegerAssignment)
 Choices: programRules:Java}
 -----------------------------------------------------
 == bitwiseNegationLong (invertBits) =========================================
 bitwiseNegationLong {
 \find(#normalassign ( (modal operator))\[{ ..
-  #loc = ~#se;
+  #loc = ~#seLong;
 ... }\] (post))
 \replacewith(update-application(elem-update(#loc (program Variable))(javaBitwiseNegateLong(#seLong)),#normalassign(post))) 
 \heuristics(executeIntegerAssignment)
