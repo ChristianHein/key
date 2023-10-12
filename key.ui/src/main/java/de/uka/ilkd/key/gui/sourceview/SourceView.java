@@ -1,3 +1,6 @@
+/* This file is part of KeY - https://key-project.org
+ * KeY is licensed under the GNU General Public License Version 2
+ * SPDX-License-Identifier: GPL-2.0-only */
 package de.uka.ilkd.key.gui.sourceview;
 
 import java.awt.*;
@@ -714,8 +717,7 @@ public final class SourceView extends JComponent {
 
                                     @Override
                                     protected void doDefaultAction(SourceElement el) {
-                                        if (el instanceof MethodBodyStatement) {
-                                            MethodBodyStatement mb = (MethodBodyStatement) el;
+                                        if (el instanceof MethodBodyStatement mb) {
                                             Statement body = mb.getBody(services);
                                             PositionInfo posInf = null;
                                             // try to find position information of the source
@@ -737,8 +739,7 @@ public final class SourceView extends JComponent {
                                                     node.proof()
                                                             .lookup(ProofJavaSourceCollection.class)
                                                             .addRelevantFile(posInf.getURI().get());
-                                                } else if (!posInf.getParentClassURI()
-                                                        .equals(PositionInfo.UNKNOWN_URI)) {
+                                                } else if (posInf.getParentClassURI() != null) {
                                                     node.proof()
                                                             .lookup(ProofJavaSourceCollection.class)
                                                             .addRelevantFile(
@@ -765,13 +766,12 @@ public final class SourceView extends JComponent {
      *         at the maximum position
      */
     private static PositionInfo joinPositionsRec(SourceElement se) {
-        if (se instanceof NonTerminalProgramElement) {
+        if (se instanceof NonTerminalProgramElement ntpe) {
             // TODO: additional elements, e.g. code inside if
             if (se instanceof If || se instanceof Then || se instanceof Else) {
                 return PositionInfo.UNDEFINED;
             }
 
-            NonTerminalProgramElement ntpe = (NonTerminalProgramElement) se;
             PositionInfo pos = se.getPositionInfo();
 
             for (int i = 0; i < ntpe.getChildCount(); i++) {

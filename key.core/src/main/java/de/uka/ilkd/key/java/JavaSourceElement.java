@@ -1,3 +1,6 @@
+/* This file is part of KeY - https://key-project.org
+ * KeY is licensed under the GNU General Public License Version 2
+ * SPDX-License-Identifier: GPL-2.0-only */
 package de.uka.ilkd.key.java;
 
 import java.net.URI;
@@ -168,8 +171,8 @@ public abstract class JavaSourceElement implements SourceElement {
     }
 
     /** get the class the statement originates from */
-    public String getParentClass() {
-        return posInfo.getParentClass();
+    public URI getParentClass() {
+        return posInfo.getParentClassURI();
     }
 
 }

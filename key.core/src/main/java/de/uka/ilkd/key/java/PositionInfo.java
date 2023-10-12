@@ -1,3 +1,6 @@
+/* This file is part of KeY - https://key-project.org
+ * KeY is licensed under the GNU General Public License Version 2
+ * SPDX-License-Identifier: GPL-2.0-only */
 package de.uka.ilkd.key.java;
 
 import java.net.MalformedURLException;
@@ -15,10 +18,6 @@ import recoder.java.SourceElement;
  * 2019-09-10 Wolfram Pfeifer: work with URIs instead of Strings -> more robust, more general
  */
 public class PositionInfo {
-    /** Unknown URI (enables us to always have a non-null value for fileURI) */
-    public static final URI UNKNOWN_URI = URI.create("UNKNOWN://unknown");
-    public static final URI UNKNOWN_URII = URI.create("urn:UNKNOWN:unknown");
-
     /** PositionInfo with undefined positions. */
     public static final PositionInfo UNDEFINED = new PositionInfo();
 
@@ -43,6 +42,7 @@ public class PositionInfo {
      * The URI of the parent class of this location (the class the statement originates from). May
      * be null.
      */
+    @Nullable
     private URI parentClassURI;
 
     private PositionInfo() {
@@ -82,9 +82,6 @@ public class PositionInfo {
         if (fileURI == null) {
             this.fileURI = null;
         } else {
-            if (fileURI.toString().contains("unknown")) {
-                int i = 0;
-            }
             this.fileURI = fileURI.normalize();
         }
     }
@@ -97,22 +94,6 @@ public class PositionInfo {
      */
     void setParentClassURI(URI parent) {
         parentClassURI = (parent == null ? null : parent.normalize());
-    }
-
-    /**
-     * Returns the path of the parent file the PositionInfo refers to (the class the statement
-     * originates from).
-     *
-     * @deprecated This method should no longer be used, as PositionInfo can now be used with
-     *             resources other than files. Use {@link #getParentClassURI()} instead.
-     * @return the filename as a string if parentClass uses the "file" protocol or null otherwise
-     */
-    @Deprecated // only kept for compatibility reasons
-    public String getParentClass() {
-        if (parentClassURI != null && parentClassURI.getScheme().equals("file")) {
-            return Paths.get(parentClassURI).toString();
-        }
-        return null;
     }
 
     /**
@@ -130,6 +111,7 @@ public class PositionInfo {
         return null;
     }
 
+    @Nullable
     public URI getParentClassURI() {
         return parentClassURI;
     }

@@ -1,3 +1,6 @@
+/* This file is part of KeY - https://key-project.org
+ * KeY is licensed under the GNU General Public License Version 2
+ * SPDX-License-Identifier: GPL-2.0-only */
 package org.key_project.slicing;
 
 import java.io.File;
@@ -14,7 +17,7 @@ import de.uka.ilkd.key.proof.Proof;
 import de.uka.ilkd.key.proof.init.JavaProfile;
 import de.uka.ilkd.key.settings.GeneralSettings;
 import de.uka.ilkd.key.settings.ProofIndependentSettings;
-import de.uka.ilkd.key.smt.RuleAppSMT;
+import de.uka.ilkd.key.smt.SMTRuleApp;
 import de.uka.ilkd.key.util.Pair;
 
 import org.key_project.slicing.analysis.AnalysisResults;
@@ -249,7 +252,7 @@ class EndToEndTests {
         // load proof
         Assertions.assertTrue(proofFile.exists());
         AtomicReference<DependencyTracker> tracker = new AtomicReference<>();
-        LOGGER.info("Loading " + proofFile.getAbsolutePath());
+        LOGGER.trace("Loading " + proofFile.getAbsolutePath());
         KeYEnvironment<?> environment =
             KeYEnvironment.load(JavaProfile.getDefaultInstance(), proofFile, null, null, null, null,
                 null, proof -> {
@@ -281,7 +284,7 @@ class EndToEndTests {
             assertEquals(expectedInSlice
                     + slicedProof.closedGoals().size()
                     - slicedProof.closedGoals().stream()
-                            .filter(x -> x.node().getAppliedRuleApp() instanceof RuleAppSMT)
+                            .filter(x -> x.node().getAppliedRuleApp() instanceof SMTRuleApp)
                             .count(),
                 slicedProof.countNodes());
 
